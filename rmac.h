@@ -12,7 +12,7 @@ public:
 	void recv(Packet *p,Handler *h);
 	//void send(Packet *p,Handler *h);
 	int command(int argc,const char*const*);
-	inline void debug(char *mesg){
+	virtual void debug(char *mesg){
 		fprintf(stderr,"rmac debug:%s\n",mesg);
 	}
 private:

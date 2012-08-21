@@ -42,7 +42,7 @@ set n(0) [$ns node]
 $n(0) random-motion 0
         $ns node-config -adhocRouting $val(rp) \
 			 -llType $val(ll) \
-			 -macType Mac \
+			 -macType Mac/T-Rfid\
 			 -ifqType $val(ifq) \
 			 -ifqLen $val(ifqlen) \
 			 -antType $val(ant) \
@@ -81,12 +81,15 @@ set ta1 [new Agent/RfidTAgent]
 set ta2 [new Agent/RfidTAgent]
 $ra set packetSize_ 64
 
-$n(0) attach $ra 3128
-$n(1) attach $ta1 3128
-$n(2) attach $ta2 3128
+$n(0) attach $ra 3000
+$n(1) attach $ta1 6000
+$n(2) attach $ta2  6000
 
 $ra set-mac [$n(0) set mac_(0)]
 [$n(0) set mac_(0)] set-agent $ra
+
+$ta1 set-mac [$n(1) set mac_(0)]
+$ta2 set-mac [$n(2) set mac_(0)]
 
 proc finish {} {
 	global ns tracefd 
@@ -96,6 +99,7 @@ proc finish {} {
 }
 
 $ns at 1.0 "$ra test"
-$ns at 1.5 "$ra brd-cmd"
-$ns at 2.0 "finish"
+$ns at 3.0 "$ra test"
+$ns at 5.5 "$ra brd-cmd"
+$ns at 6.0 "finish"
 $ns run

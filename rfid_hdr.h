@@ -6,9 +6,13 @@
 #include "packet.h"
 #include "address.h"
 #include "ip.h"
+#include "agent.h"
 
 
 #define HDR_RFID(p)	rfid_hdr::access(p)
+
+#define TAgentPort	6000
+#define RAgentPort	3000
 struct rfid_hdr {
 	int cmd;
 	char comment[16];
@@ -25,7 +29,8 @@ enum rfidcmd {
 	RFID_QUERYADJ,
 	RFID_QUERYREP,
 	RFID_ACK,
-	RFID_NAK
+	RFID_NAK,
+	RFID_RN16
 }; 
 
 

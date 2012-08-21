@@ -292,7 +292,7 @@ OBJ_CC = \
 	diffusion/diff_sink.o diffusion/flooding.o diffusion/omni_mcast.o \
 	diffusion/hash_table.o diffusion/routing_table.o diffusion/iflist.o \
 	tcp/tfrc.o tcp/tfrc-sink.o mobile/energy-model.o apps/ping.o tcp/tcp-rfc793edu.o \
-	ns2-RFID/rfidRagent.o ns2-RFID/rfidTagent.o ns2-RFID/rmac.o\
+	ns2-RFID/rfidRagent.o ns2-RFID/rfidTagent.o ns2-RFID/rmac.o ns2-RFID/tmac.o \
 	queue/rio.o queue/semantic-rio.o tcp/tcp-sack-rh.o tcp/scoreboard-rh.o \
 	plm/loss-monitor-plm.o plm/cbr-traffic-PP.o \
 	linkstate/hdr-ls.o \

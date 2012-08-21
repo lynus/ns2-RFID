@@ -17,6 +17,7 @@ public:
 	}
 protected:
 	NsObject *mac; 
+	Packet *mkPacket(int cmd,char *comment);
 	
 };
 

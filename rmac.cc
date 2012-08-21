@@ -1,11 +1,11 @@
 #include "rmac.h"
 #include "rfid_hdr.h"
 
-#define SLOT_F 6e-5	//slot frame ,we say 0.00006 
+#define SLOT_F 0.5	//slot frame ,we say 0.00006 
 
 static class RfidRMacClass : public TclClass {
 public:
-	RfidRMacClass() : TclClass("Mac/Rfid") {}
+	RfidRMacClass() : TclClass("Mac/R-Rfid") {}
 	TclObject* create(int,const char* const*) {
 		return new RfidRMac();
 	}
@@ -23,6 +23,7 @@ void RfidRMac::recv(Packet *p,Handler *h){
 		if (rh->cmd==RFID_QUERY){
 			state(MAC_POLLING);
 			ltimer->start(SLOT_F);
+			downtarget_->recv(p,h);
 			return;
 		}else{
 			/* other rfid_command arrived
@@ -37,8 +38,12 @@ void RfidRMac::recv(Packet *p,Handler *h){
 	/*XXX hold the place for further
 	***coding
 	*/
-		agent->debug("__LINE__@__FILE__:rmac get a message\0");	
-		Packet::free(p);  	//ignore any packet
+		fprintf(stderr,"#####%d\n",HDR_RFID(p)->cmd);
+		if (state()==MAC_POLLING && HDR_RFID(p)->cmd==RFID_RN16){
+			state(MAC_RECV);
+			ltimer->stop();
+			fprintf(stderr,"rmac at %.5f get a RN16\n",Scheduler::instance().clock());
+		}
 		return;
 	}
 }	
@@ -58,6 +63,7 @@ int RfidRMac ::command(int argc,const char*const* argv){
 }
 void RfidRMac :: timeup(){
 	agent->timeup();
+	state(MAC_IDLE);
 }
 void RfidTimer::start(double time){
 	Scheduler &s=Scheduler::instance();
@@ -89,7 +95,6 @@ void RfidTimer::restart(double time){
 	start(time);
 }
 void LTimer::handle(Event *e){
-	busy=0;
-	stime=rtime=0;
+	reset();
 	mac->timeup();
 }
