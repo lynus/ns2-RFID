@@ -100,6 +100,7 @@ proc finish {} {
 
 $ns at 1.0 "$ra test"
 $ns at 3.0 "$ra test"
-$ns at 5.5 "$ra brd-cmd"
+$ns at 5.787 "puts [$ra now]"
+$ns at 5.9 "$ra put_name"
 $ns at 6.0 "finish"
 $ns run

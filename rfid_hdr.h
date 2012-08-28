@@ -15,7 +15,7 @@
 #define RAgentPort	3000
 struct rfid_hdr {
 	int cmd;
-	char comment[16];
+	char comment[32];
 	int misc;
 	static int offset_;
 	inline static rfid_hdr* access (const Packet* p){
